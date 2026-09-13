@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlowCart | Fashion Accessories</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;background:#faf7f8;color:#201b20}
+a{text-decoration:none;color:inherit}
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid #eee}
+.nav{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:16px 22px;gap:18px}
+.logo{font-size:25px;font-weight:900;letter-spacing:-1px}
+.logo span{color:#d83b73}
+.navlinks{display:flex;gap:22px;font-weight:700;font-size:14px}
+.navlinks a:hover{color:#d83b73}
+.cart{border:0;background:#201b20;color:#fff;padding:10px 15px;border-radius:999px;font-weight:800;cursor:pointer}
+#cartCount{background:#fff;color:#201b20;border-radius:50%;padding:2px 6px;margin-left:5px}
+.hero{max-width:1200px;margin:25px auto;padding:55px 28px;border-radius:28px;position:relative;overflow:hidden;background:linear-gradient(120deg,#f7d8e5,#fff,#e9def7)}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;filter:blur(2px);opacity:.45;animation:float 6s ease-in-out infinite}
+.hero:before{width:230px;height:230px;background:#f08db5;right:-70px;top:-70px}
+.hero:after{width:170px;height:170px;background:#b8a0ed;left:-60px;bottom:-70px;animation-delay:1s}
+.heroContent{position:relative;z-index:2;max-width:650px}
+.badge{display:inline-block;background:#201b20;color:#fff;padding:8px 13px;border-radius:999px;font-size:12px;font-weight:800;margin-bottom:18px}
+.hero h1{font-size:clamp(38px,7vw,72px);line-height:.95;letter-spacing:-3px;margin-bottom:18px}
+.hero h1 span{color:#d83b73}
+.hero p{font-size:17px;line-height:1.6;color:#554d54;max-width:560px}
+.btn{display:inline-block;margin-top:25px;background:#d83b73;color:#fff;padding:14px 21px;border-radius:12px;font-weight:900;box-shadow:0 10px 25px rgba(216,59,115,.25);transition:.25s}
+.btn:hover{transform:translateY(-3px)}
+.section{max-width:1200px;margin:55px auto;padding:0 22px}
+.sectionTitle{display:flex;justify-content:space-between;align-items:end;margin-bottom:22px}
+.sectionTitle h2{font-size:30px}
+.sectionTitle p{color:#777}
+.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cat{padding:25px;border-radius:20px;background:#fff;border:1px solid #eee;cursor:pointer;transition:.25s}
+.cat:hover{transform:translateY(-5px);box-shadow:0 15px 35px #00000010}
+.cat b{font-size:20px}.cat small{display:block;color:#777;margin-top:7px}
+.products{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.card{background:#fff;border:1px solid #eee;border-radius:20px;overflow:hidden;position:relative;transition:.3s}
+.card:hover{transform:translateY(-7px);box-shadow:0 18px 40px #00000012}
+.photo{height:290px;background:#f1eeee;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;transition:.5s}
+.card:hover .photo img{transform:scale(1.06)}
+.info{padding:16px}
+.tag{font-size:11px;color:#d83b73;font-weight:900;text-transform:uppercase}
+.name{font-weight:800;font-size:16px;margin:7px 0}
+.price{font-size:20px;font-weight:900}
+.mrp{text-decoration:line-through;color:#999;font-size:13px;margin-left:7px;font-weight:500}
+.add{width:100%;margin-top:13px;border:0;background:#201b20;color:#fff;padding:11px;border-radius:10px;font-weight:800;cursor:pointer}
+.wish{position:absolute;right:12px;top:12px;width:38px;height:38px;border:0;border-radius:50%;background:#fff;cursor:pointer;font-size:18px;box-shadow:0 5px 18px #0002}
+.offer{max-width:1200px;margin:50px auto;padding:35px 25px;background:#201b20;color:#fff;border-radius:24px;text-align:center}
+.offer h2{font-size:32px;margin-bottom:8px}
+.offer p{color:#ddd}
+footer{margin-top:60px;background:#171417;color:#fff;padding:35px 22px;text-align:center}
+.modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.modalBox{background:#fff;border-radius:20px;max-width:480px;width:100%;padding:25px}
+.close{float:right;border:0;background:#eee;border-radius:50%;width:32px;height:32px;cursor:pointer}
+.cartItem{display:flex;justify-content:space-between;gap:15px;padding:13px 0;border-bottom:1px solid #eee}
+.total{font-size:22px;font-weight:900;margin-top:18px}
+@keyframes float{50%{transform:translateY(18px) rotate(8deg)}}
+@media(max-width:900px){.products{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:650px){
+ .nav{padding:13px 15px}.navlinks{display:none}
+ .hero{margin:14px;border-radius:22px;padding:42px 22px}.hero h1{letter-spacing:-2px}
+ .categories{grid-template-columns:1fr}.products{grid-template-columns:repeat(2,1fr);gap:12px}
+ .photo{height:220px}.section{padding:0 14px;margin:42px auto}.sectionTitle h2{font-size:24px}
+}
+</style>
+</head>
+<body>
+<header>
+<nav class="nav">
+  <div class="logo">Glow<span>Cart</span></div>
+  <div class="navlinks"><a href="#home">Home</a><a href="#categories">Categories</a><a href="#products">Shop</a><a href="#offers">Offers</a></div>
+  <button class="cart" onclick="openCart()">🛒 Cart <span id="cartCount">0</span></button>
+</nav>
+</header>
+
+<main id="home">
+<section class="hero">
+ <div class="heroContent">
+  <div class="badge">NEW COLLECTION ✦</div>
+  <h1>Shine your <span>style.</span></h1>
+  <p>Trendy jewellery and hair accessories made to add a little extra sparkle to your everyday look.</p>
+  <a class="btn" href="#products">Shop Now →</a>
+ </div>
+</section>
+
+<section class="section" id="categories">
+ <div class="sectionTitle"><div><h2>Shop by category</h2><p>Pick your favourite style.</p></div></div>
+ <div class="categories">
+  <div class="cat" onclick="filterProducts('Earrings')"><b>💎 Earrings</b><small>Elegant crystal styles</small></div>
+  <div class="cat" onclick="filterProducts('Rings')"><b>💍 Rings</b><small>Statement sparkle</small></div>
+  <div class="cat" onclick="filterProducts('Hair Accessories')"><b>🌸 Hair Accessories</b><small>Pretty everyday looks</small></div>
+ </div>
+</section>
+
+<section class="section" id="products">
+ <div class="sectionTitle"><div><h2>Featured products</h2><p>Special price: ₹899 <s>₹2,000</s></p></div></div>
+ <div class="products" id="productGrid"></div>
+</section>
+
+<section class="offer" id="offers">
+ <h2>✨ Special Launch Price</h2>
+ <p>Selected products available at ₹899. MRP ₹2,000.</p>
+ <a class="btn" href="#products">View Collection</a>
+</section>
+</main>
+
+<footer>
+ <b>GlowCart</b><br><small>Fashion accessories • © 2026</small>
+</footer>
+
+<div class="modal" id="cartModal" onclick="if(event.target===this)closeCart()">
+ <div class="modalBox">
+  <button class="close" onclick="closeCart()">×</button>
+  <h2>Your Cart</h2>
+  <div id="cartItems" style="margin-top:15px"></div>
+  <div class="total" id="cartTotal">Total: ₹0</div>
+  <button class="btn" style="border:0;cursor:pointer" onclick="alert('Checkout page can be connected next.')">Checkout</button>
+ </div>
+</div>
+
+<script>
+const products = [
+  {name:"Crystal Cross Earrings",cat:"Earrings",img:"images/product-1.jpg",price:899,mrp:2000},
+  {name:"Crystal Cross Earrings",cat:"Earrings",img:"images/product-2.jpg",price:899,mrp:2000},
+  {name:"Crystal Cross Earrings",cat:"Earrings",img:"images/product-3.jpg",price:899,mrp:2000},
+  {name:"White Flower Hair Clip",cat:"Hair Accessories",img:"images/product-4.jpg",price:899,mrp:2000},
+  {name:"White Flower Hair Clip",cat:"Hair Accessories",img:"images/product-5.jpg",price:899,mrp:2000},
+  {name:"Sparkle Ring Set",cat:"Rings",img:"images/product-6.jpg",price:899,mrp:2000},
+  {name:"Crystal Ring Set",cat:"Rings",img:"images/product-7.jpg",price:899,mrp:2000},
+  {name:"Crystal Hair Pin Set",cat:"Hair Accessories",img:"images/product-8.jpg",price:899,mrp:2000},
+  {name:"Crystal Ring & Hand Chain",cat:"Rings",img:"images/product-9.jpg",price:899,mrp:2000},
+  {name:"Crystal Hair Accessory",cat:"Hair Accessories",img:"images/product-10.jpg",price:899,mrp:2000}
+];
+let cart=[];
+let currentFilter="All";
+function render(){
+ const grid=document.getElementById("productGrid");
+ const list=currentFilter==="All"?products:products.filter(p=>p.cat===currentFilter);
+ grid.innerHTML=list.map((p,i)=>`
+  <div class="card">
+   <button class="wish" onclick="this.textContent=this.textContent==='♡'?'♥':'♡'">♡</button>
+   <div class="photo"><img src="${p.img}" alt="${p.name}"></div>
+   <div class="info">
+    <div class="tag">${p.cat}</div><div class="name">${p.name}</div>
+    <div class="price">₹${p.price.toLocaleString()} <span class="mrp">₹${p.mrp.toLocaleString()}</span></div>
+    <button class="add" onclick="addToCart(${products.indexOf(p)})">Add to Cart</button>
+   </div>
+  </div>`).join("");
+}
+function filterProducts(cat){currentFilter=cat;render();document.getElementById("products").scrollIntoView({behavior:"smooth"})}
+function addToCart(i){cart.push(products[i]);document.getElementById("cartCount").textContent=cart.length;alert("Product added to cart!")}
+function openCart(){
+ document.getElementById("cartModal").style.display="flex";
+ const box=document.getElementById("cartItems");
+ box.innerHTML=cart.length?cart.map((p,i)=>`<div class="cartItem"><span>${p.name}</span><b>₹${p.price}</b></div>`).join(""):"<p>Your cart is empty.</p>";
+ document.getElementById("cartTotal").textContent="Total: ₹"+cart.reduce((s,p)=>s+p.price,0).toLocaleString();
+}
+function closeCart(){document.getElementById("cartModal").style.display="none"}
+render();
+</script>
+</body>
+</html>
